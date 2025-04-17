@@ -1,13 +1,12 @@
 package main
 
 import (
-	"NickLand74/gRPC-server-autorization.git/server"
 	"log"
+
+	"github.com/NickLand74/gRPC-server-autorization/server"
 )
 
 func main() {
-	if err := server.Run(); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
-	}
-
+	server.Run() // Просто вызываем функцию без обработки ошибки
+	log.Println("Server stopped")
 }

@@ -10,15 +10,12 @@ import (
 	"syscall"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 
-	"github.com/NickLand74/gRPC-server-autorization.git/internal/auth"
-	"github.com/NickLand74/gRPC-server-autorization.git/services"
-
-	"github.com/NickLand74/gRPC-server-autorization.git/handlers"
-
-	"github.com/NickLand74/gRPC-server-autorization.git/config"
+	"github.com/NickLand74/gRPC-server-autorization/config"
+	"github.com/NickLand74/gRPC-server-autorization/handlers"
+	"github.com/NickLand74/gRPC-server-autorization/proto/auth/pb"
+	"github.com/NickLand74/gRPC-server-autorization/services"
+	"github.com/NickLand74/gRPC-server-autorization/services/storage"
 )
 
 // Функция для обработки паник
@@ -29,18 +26,18 @@ func recoverPanic() {
 	}
 }
 
-func Run() error {
+func Run() { // Убрали возвращение error
 	cfg := config.LoadConfig()
 
 	// Инициализация хранилища
-	storage := services.NewPostgresStorage()
+	storage := storage.NewPostgresStorage()
 	service := services.NewAuthService(storage)
 	handler := handlers.NewAuthHandler(service)
 
 	// Настройка gRPC-сервера
 	listener, err := net.Listen("tcp", ":"+cfg.Port)
 	if err != nil {
-		return err
+		log.Fatalf("failed to listen: %v", err)
 	}
 	defer listener.Close()
 
@@ -51,14 +48,13 @@ func Run() error {
 			defer func() {
 				if r := recover(); r != nil {
 					log.Printf("PANIC IN HANDLER: %v\nStack Trace:\n%s", r, debug.Stack())
-					return status.Error(codes.Internal, "Internal server error")
 				}
 			}()
 			return handler(ctx, req)
 		}),
 	)
 
-	auth.RegisterAuthServiceServer(grpcServer, handler)
+	pb.RegisterAuthServiceServer(grpcServer, handler)
 
 	// Обработка сигналов
 	quit := make(chan os.Signal, 1)
@@ -67,11 +63,11 @@ func Run() error {
 	// Запуск сервера в горутине
 	serverCtx, serverCancel := context.WithCancel(context.Background())
 	go func() {
-		defer recoverPanic() // Обработка паник в главной горутине сервера
+		defer recoverPanic()
 		if err := grpcServer.Serve(listener); err != nil && err != grpc.ErrServerStopped {
 			log.Printf("gRPC server error: %v", err)
 		}
-		serverCancel() // Отменяем контекст при ошибке
+		serverCancel()
 	}()
 
 	// Ожидание сигнала завершения
@@ -85,6 +81,4 @@ func Run() error {
 	// Завершение сервера
 	grpcServer.GracefulStop()
 	log.Println("Server stopped")
-
-	return nil
 }
