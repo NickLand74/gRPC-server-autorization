@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"NickLand74/gRPC-server-autorization.git/services"
 	"context"
+
+	"NickLand74/gRPC-server-autorization.git/services"
 )
 
 type AuthHandler struct {
