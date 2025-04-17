@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
 	"github.com/NickLand74/gRPC-server-autorization/config"
 	"github.com/NickLand74/gRPC-server-autorization/handlers"
@@ -26,7 +27,7 @@ func recoverPanic() {
 	}
 }
 
-func Run() { // Убрали возвращение error
+func Run() {
 	cfg := config.LoadConfig()
 
 	// Инициализация хранилища
@@ -55,6 +56,7 @@ func Run() { // Убрали возвращение error
 	)
 
 	pb.RegisterAuthServiceServer(grpcServer, handler)
+	reflection.Register(grpcServer)
 
 	// Обработка сигналов
 	quit := make(chan os.Signal, 1)
