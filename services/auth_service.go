@@ -1,6 +1,7 @@
 package services
 
 import (
+	"NickLand74/gRPC-server-autorization.git/config"
 	"NickLand74/gRPC-server-autorization.git/internal/auth"
 	"NickLand74/gRPC-server-autorization.git/proto/auth"
 	"NickLand74/gRPC-server-autorization.git/storage"
