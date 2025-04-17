@@ -1,12 +1,11 @@
 package services
 
 import (
-	"NickLand74/gRPC-server-autorization.git/config"
-	"NickLand74/gRPC-server-autorization.git/internal/auth"
-	"NickLand74/gRPC-server-autorization.git/proto/auth"
-	"NickLand74/gRPC-server-autorization.git/storage"
 	"context"
 	"log"
+
+	"github.com/NickLand74/gRPC-server-autorization/config"
+	"github.com/NickLand74/gRPC-server-autorization/storage"
 )
 
 type AuthService struct {

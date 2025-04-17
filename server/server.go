@@ -13,10 +13,12 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"NickLand74/gRPC-server-autorization.git/config"
-	"NickLand74/gRPC-server-autorization.git/handlers"
-	"NickLand74/gRPC-server-autorization.git/internal/auth"
-	"NickLand74/gRPC-server-autorization.git/services"
+	"github.com/NickLand74/gRPC-server-autorization.git/internal/auth"
+	"github.com/NickLand74/gRPC-server-autorization.git/services"
+
+	"github.com/NickLand74/gRPC-server-autorization.git/handlers"
+
+	"github.com/NickLand74/gRPC-server-autorization.git/config"
 )
 
 // Функция для обработки паник

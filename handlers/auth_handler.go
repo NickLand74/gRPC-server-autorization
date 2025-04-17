@@ -3,22 +3,23 @@ package handlers
 import (
 	"context"
 
-	"NickLand74/gRPC-server-autorization.git/services"
+	"github.com/NickLand74/gRPC-server-autorization/proto/auth/pb"
+	"github.com/NickLand74/gRPC-server-autorization/services"
 )
 
 type AuthHandler struct {
-	auth.UnimplementedAuthServiceServer
-	service *services.AuthService
+	pb.UnimplementedAuthServiceServer // Используем pb вместо auth
+	service                           *services.AuthService
 }
 
 func NewAuthHandler(service *services.AuthService) *AuthHandler {
 	return &AuthHandler{service: service}
 }
 
-func (h *AuthHandler) Register(ctx context.Context, req *auth.RegisterRequest) (*auth.RegisterResponse, error) {
+func (h *AuthHandler) Register(ctx context.Context, req *pb.RegisterRequest) (*pb.RegisterResponse, error) {
 	return h.service.Register(ctx, req)
 }
 
-func (h *AuthHandler) Login(ctx context.Context, req *auth.LoginRequest) (*auth.LoginResponse, error) {
+func (h *AuthHandler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.LoginResponse, error) {
 	return h.service.Login(ctx, req)
 }

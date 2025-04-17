@@ -1,10 +1,11 @@
 package storage
 
 import (
-	"auth-service/config"
 	"database/sql"
 	"fmt"
 	"log"
+
+	"github.com/NickLand74/gRPC-server-autorization.git/config"
 )
 
 type PostgresStorage struct {
