@@ -1,5 +1,6 @@
 syntax = "proto3";
 package auth;
+option go_package = "github.com/NickLand74/gRPC-server-autorization.git/proto/pb";
 
 service AuthService {
   rpc Register (RegisterRequest) returns (RegisterResponse);
