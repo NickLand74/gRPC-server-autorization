@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"NickLand74/gRPC-server-autorization.git/proto/auth"
 	"NickLand74/gRPC-server-autorization.git/services"
 	"context"
 )
