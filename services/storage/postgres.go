@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/NickLand74/gRPC-server-autorization/config" // Убрали .git
+	_ "github.com/lib/pq"
+
+	"github.com/NickLand74/gRPC-server-autorization/config"
 )
 
 type PostgresStorage struct {
